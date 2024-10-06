@@ -1,12 +1,12 @@
 services:
   frontend:
     build:
-      context: ../../frontend   # Path from docker-compose.yml to frontend folder
-      dockerfile: Dockerfile    # Dockerfile is located in the frontend folder
+      context: ../../frontend
+      dockerfile: Dockerfile
     ports:
       - '3000:3000'
     volumes:
-      - ../../frontend:/app      # Mount the local frontend folder into the container
-      - /app/node_modules        # Avoid mounting node_modules
+      - ../../frontend:/app
+      - /app/node_modules
     environment:
-      - CHOKIDAR_USEPOLLING=true  # Enable polling for hot reloading
+      - CHOKIDAR_USEPOLLING=true

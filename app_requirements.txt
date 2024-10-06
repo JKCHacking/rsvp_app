@@ -1,0 +1,32 @@
+Users POV:
+1. Inviter will invite visitors by sending a QR Code redirecting to the registration page.
+2. Inviter can also send a link to the registration page.
+3. Visitor can fill-up the registration page. all are required fields
+    3.1 Full name
+    3.2 going or not
+    3.3 commute or not
+    3.4 contact number
+4. Once filled up, visitor will press the register button and the system will register the visitor.
+5. Once in the venue, visitor will scan the qr code in the front desk and will be marked as arrived.
+6. Inviter can view the list of visitors in an admin page. it will also include all the information inputed.
+7. The admin page will also display if the visitor has arrived in the venue or not.
+8. Admin can create an account for admin priviledges.
+
+pages:
+- Registration page
+- Admin page
+- Home page
+    - register button to redirect to registration page
+
+Features:
+- QR code generation for registration page
+- QR code generation for arrived.
+- Visitor list in admin page
+
+Tech-Stack:
+- Reactjs - Frontend
+- Go - backend
+- PostgreSQL - DB
+- Cloud - AWS
+- Docker local development
+- NGINX
