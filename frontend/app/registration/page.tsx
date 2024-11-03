@@ -22,14 +22,13 @@ export default function Registration() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission
         console.log(formData);
     };
     
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
-                <h2 className="text-2xl font-bold text-center">Register Form</h2>
+                <h2 className="text-2xl font-bold text-center">Registration Form</h2>
                 <Form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
