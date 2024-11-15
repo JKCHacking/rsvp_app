@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func RegisterVisitor(c *gin.Context) {
+func PostVisitor(c *gin.Context) {
 	var visitor models.Visitor
 
 	if err := c.ShouldBindJSON(&visitor); err != nil {

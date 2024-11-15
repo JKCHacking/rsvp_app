@@ -9,6 +9,6 @@ import (
 func main() {
 	router := gin.Default()
 	database.ConnectDatabase()
-	router.POST("/register", handlers.RegisterVisitor)
+	router.POST("/api/1/visitor", handlers.PostVisitor)
 	router.Run(":5000")
 }
