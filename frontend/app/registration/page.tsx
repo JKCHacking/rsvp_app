@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Form from '../../components/form';
+import axios from "axios";
 
 export default function Registration() {
     const [formData, setFormData] = useState({
@@ -23,6 +24,14 @@ export default function Registration() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(formData);
+
+        axios.post('http://localhost:5000/api/1/register')
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error("Error during registration.", error)
+            });
     };
     
     return (
