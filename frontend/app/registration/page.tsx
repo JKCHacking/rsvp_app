@@ -1,114 +1,73 @@
 "use client"
 
 import React, { useState } from 'react';
-import Form from '../../components/form';
-import axios from "axios";
+import Button from '../../components/button';
+import Input from '../../components/input';
+import Checkbox from '../../components/checkbox';
+import { postVisitorApi } from '../../lib/api';
 
 export default function Registration() {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        going: false,
-        commute: false,
-        contactNumber: ''
-    });
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [going, setGoing] = useState(false);
+    const [commute, setCommute] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState("");
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, type, checked, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
-    };
+    const registerVisitor = async () => {
+        const payload = {
+            "firstName": firstName,
+            "lastName": lastName,
+            "contactNumber": phoneNumber,
+            "going": going,
+            "commute": commute,
+        }
+        const res = await postVisitorApi(payload);
+        if (res.status == 200) {
+            console.log("Visitor registration successful!");
+        } else {
+            console.log("Visitor registration failed!");
+        }
+    }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log(formData);
-
-        axios.post('http://localhost:5000/api/1/register')
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.error("Error during registration.", error)
-            });
-    };
-    
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
                 <h2 className="text-2xl font-bold text-center">Registration Form</h2>
-                <Form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter first name"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter your last name"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700">Contact Number</label>
-                        <input
-                            type="text"
-                            id="contactNumber"
-                            name="contactNumber"
-                            value={formData.contactNumber}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter your contact number"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="going" className="block text-sm font-medium text-gray-700">Going?</label>
-                        <input
-                            type="checkbox"
-                            id="going"
-                            name="going"
-                            checked={formData.going}
-                            onChange={handleChange}
-                            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="commute" className="block text-sm font-medium text-gray-700">Commute?</label>
-                        <input
-                            type="checkbox"
-                            id="commute"
-                            name="commute"
-                            checked={formData.commute}
-                            onChange={handleChange}
-                            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                        />
-                    </div>
-                    <div className="pt-4">
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
-                        >
-                            Register
-                        </button>
-                    </div>
-                </Form>
+                <Input
+                    label="First Name"
+                    value={firstName}
+                    onChange={setFirstName}
+                    placeHolder="Enter first name"
+                    required
+                />
+                <Input
+                    label="Last Name"
+                    value={lastName}
+                    onChange={setLastName}
+                    placeHolder="Enter last name"
+                    required
+                />
+                <Input
+                    label="Phone Number"
+                    value={phoneNumber}
+                    onChange={setPhoneNumber}
+                    placeHolder="Enter phone number"
+                    required
+                />
+                <Checkbox
+                    label="Going?"
+                    checked={going}
+                    onChange={setGoing}
+                />
+                <Checkbox
+                    label="Commute?"
+                    checked={commute}
+                    onChange={setCommute}
+                />
+                <Button
+                    text="Register"
+                    onClick={registerVisitor}
+                />
             </div>
         </div>
     );

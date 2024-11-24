@@ -15,6 +15,8 @@ RUN go build -o backend
 
 FROM alpine:latest
 
+RUN apk add --no-cache sqlite
+
 WORKDIR /app
 
 COPY --from=builder /app/backend .

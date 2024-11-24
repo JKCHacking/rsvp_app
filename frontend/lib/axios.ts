@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 // Create an instance of Axios with a base URL
 const api: AxiosInstance = axios.create({
@@ -8,17 +8,18 @@ const api: AxiosInstance = axios.create({
 
 // Request interceptor for adding authorization tokens or other headers
 api.interceptors.request.use(
-    (config) => {
+    async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig<any>> => {
         return config;
     },
-    (error) => Promise.reject(error)
+    (error: any): Promise<never> => Promise.reject(error)
 );
 // Response interceptor for handling errors globally
 api.interceptors.response.use(
-    (response) => response,
-    (error) => {
+    (response: AxiosResponse<any, any>): AxiosResponse<any, any> => response,
+    (error: any): Promise<never> => {
         if (error.response && error.response.status === 401) {
             // Handle unauthorized access, e.g., redirect to login
+            console.log("Something went wrong");
         }
         return Promise.reject(error);
     }

@@ -1,34 +1,24 @@
 # Use the official Node.js image as the base image
-FROM node:18-alpine AS builder
+FROM node:18-alpine AS base
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files
+# Install dependencies
+FROM base AS dependencies
 COPY package*.json ./
-
-# Install the project dependencies
 RUN npm install
 
-# Copy the rest of the project files to the container
+# Copy the rest of the project files (excluding node_modules)
+FROM dependencies AS dev
 COPY . .
 
-RUN npm run build
-
-FROM node:18-alpine AS runner
-
-WORKDIR /app
-
-ENV NODE_ENV production
-
-COPY --from=builder /app/.next ./.next
-# COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./
-
-RUN npm install --omit=dev
-
-# Expose the port that the Next.js server will run on
+# Expose the development port
 EXPOSE 3000
 
+# Use chokidar polling for hot reloading (useful for Docker on some systems)
+ENV CHOKIDAR_USEPOLLING=true
+ENV NODE_ENV=development
+
 # Run the Next.js development server with hot reloading
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
