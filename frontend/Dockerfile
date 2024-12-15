@@ -19,6 +19,7 @@ EXPOSE 3000
 # Use chokidar polling for hot reloading (useful for Docker on some systems)
 ENV CHOKIDAR_USEPOLLING=true
 ENV NODE_ENV=development
+ENV TAILWIND_MODE=watch
 
 # Run the Next.js development server with hot reloading
 CMD ["npm", "run", "dev"]
