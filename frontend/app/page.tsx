@@ -13,6 +13,10 @@ export default function Home() {
         console.log('Form Submitted');
     };
 
+    const handleLogin = () => {
+        router.push('/login');
+    }
+
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <p className="p-10 bg-green-500 text-white text-2xl">
@@ -21,6 +25,10 @@ export default function Home() {
             <Button
                 text="Register"
                 onClick={handleSubmit}
+            />
+            <Button
+                text="Login"
+                onClick={handleLogin}
             />
         </div>
     );
