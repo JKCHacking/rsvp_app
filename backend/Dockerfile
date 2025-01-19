@@ -17,6 +17,8 @@ FROM alpine:latest
 
 RUN apk add --no-cache sqlite
 
+RUN apk add --no-cache curl
+
 WORKDIR /app
 
 COPY --from=builder /app/backend .

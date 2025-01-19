@@ -13,6 +13,8 @@ services:
     env_file:
       - ../../frontend/.env.local
     command: "npm run dev"
+    networks:
+      - rsvp_network
 
   backend:
     build:
@@ -20,6 +22,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+    networks:
+      - rsvp_network
 
   keycloak-local:
     image: quay.io/keycloak/keycloak:latest # Use the latest version of Keycloak
@@ -41,6 +45,8 @@ services:
       - "8080:8080" # Expose Keycloak on port 8080
     depends_on:
       - db # Ensure the database is started before Keycloak
+    networks:
+      - rsvp_network
 
   db:
     image: postgres:15 # PostgreSQL version 15
@@ -51,6 +57,11 @@ services:
       POSTGRES_PASSWORD: password # Database password
     volumes:
       - keycloak-data:/var/lib/postgresql/data # Persist database data
+    networks:
+      - rsvp_network
 
 volumes:
   keycloak-data:
+
+networks:
+  rsvp_network:

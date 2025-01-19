@@ -4,24 +4,27 @@ import React, { useState } from 'react';
 import Button from '../../components/button';
 import Input from '../../components/input';
 import { postLoginApi } from '../../lib/api';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const router = useRouter();
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         const payload = {
-            "email": email,
+            "username": email,
             "password": password
         }
         const response = await postLoginApi(payload);
+
         if (response.status == 200) {
             console.log("Login successful");
-            console.log(response.data.access_token);
+            router.push("/dashboard");
         } else {
             console.log("Login failed");
-            console.log(response.data);
         }
     }
 
