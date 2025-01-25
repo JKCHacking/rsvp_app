@@ -21,6 +21,7 @@ func main() {
 	}))
 	database.ConnectDatabase()
 	router.POST("/api/1/visitor", handlers.PostVisitor)
+	router.GET("/api/1/visitor", handlers.GetVisitors)
 	router.POST("/api/1/auth/login", handlers.PostLogin)
 	router.Run(":5000")
 }

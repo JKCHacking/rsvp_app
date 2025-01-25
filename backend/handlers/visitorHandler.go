@@ -25,3 +25,15 @@ func PostVisitor(c *gin.Context) {
 
 	c.JSON(http.StatusOK, visitor)
 }
+
+func GetVisitors(c *gin.Context) {
+	var visitors []models.Visitor
+
+	result := database.DB.Find(&visitors)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to get visitors: " + result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, visitors)
+}

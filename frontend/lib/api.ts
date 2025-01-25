@@ -17,6 +17,16 @@ export const postVisitorApi = async (data: object): Promise<AxiosResponse<any, a
     }
 };
 
+export const getVisitorApi = async (): Promise<AxiosResponse<any, any>> => {
+    try {
+        const response = await api.get("/visitor", { withCredentials: true });
+        return response;
+    } catch (error) {
+        if (isAxiosError(error)) return error.response;
+        return null;
+    }
+};
+
 export const postLoginApi = async (data: object): Promise<AxiosResponse<any, any>> => {
     try {
         const response = await api.post("/auth/login", JSON.stringify(data),
