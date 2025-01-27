@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface ColumnDefinition<T> {
+export interface ColumnDefinition<T> {
     key: keyof T;
     header: string;
     width?: string;
