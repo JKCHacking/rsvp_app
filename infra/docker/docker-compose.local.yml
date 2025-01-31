@@ -26,6 +26,11 @@ services:
       - "5000:5000"
     networks:
       - rsvp_network
+    environment:
+      KEYCLOAK_URL: "http://keycloak-server:8080"
+      KEYCLOAK_REALM: "myrealm"
+      KEYCLOAK_CLIENT_ID: "my-client"
+      KEYCLOAK_CLIENT_SECRET: "BWECPxOjnRapY8kKNWCVLE9qgDKORB8r"
 
   keycloak-local:
     image: quay.io/keycloak/keycloak:latest # Use the latest version of Keycloak

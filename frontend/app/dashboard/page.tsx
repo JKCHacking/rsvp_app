@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Table, { ColumnDefinition } from '../../components/table';
-import { getVisitorApi } from '../../lib/api';
+import { getVisitorApi, postLogoutApi } from '../../lib/api';
+import Button from '../../components/button';
+import { useRouter } from 'next/navigation';
 
 interface Visitor {
     firstName: string;
@@ -14,7 +16,17 @@ interface Visitor {
 }
 
 export default function Dashboard() {
+    const router = useRouter();
     const [visitors, setVisitors] = useState<Visitor[]>([]);
+
+    const logoutKeycloak = async () => {
+        const response = await postLogoutApi();
+        if (response.status != 200) {
+            console.log("Failed to logout from Keycloak");
+        }
+        console.log("Logout from keycloak");
+        router.push('/login');
+    };
 
     const getVisitors = async () => {
         const response = await getVisitorApi();
@@ -63,6 +75,10 @@ export default function Dashboard() {
                 data={visitors}
                 hoverEffect
                 stripedRows
+            />
+            <Button
+                text="Logout"
+                onClick={logoutKeycloak}
             />
         </div>
     )

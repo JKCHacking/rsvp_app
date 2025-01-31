@@ -43,3 +43,20 @@ export const postLoginApi = async (data: object): Promise<AxiosResponse<any, any
         return null;
     }
 };
+
+export const postLogoutApi = async (): Promise<AxiosResponse<any, any>> => {
+    try {
+        const response = await api.post("/auth/logout", {},
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            }
+        );
+        return response
+    } catch (error) {
+        if (isAxiosError(error)) return error.response;
+        return null;
+    }
+};
