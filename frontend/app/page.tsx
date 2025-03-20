@@ -30,7 +30,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center gap-3">
                 <h1 className="text-3xl font-custom1">Shai & Josh</h1>
                 <ImageSlider
-                    slides={slides}
+                    images={slides}
                 />
             </div>
         </>
