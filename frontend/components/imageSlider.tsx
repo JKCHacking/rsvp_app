@@ -12,15 +12,15 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
 
     const nextSlide = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }
+    };
 
     const prevSlide = () => {
         setCurrentIndex((prevIndex) => prevIndex === 0 ? images.length - 1 : prevIndex - 1);
-    }
+    };
 
     const handleTouchStart = (e: React.TouchEvent) => {
         touchStartX.current = e.touches[0].clientX;
-    }
+    };
 
     const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
         if (!isDragging.current) return;
