@@ -44,7 +44,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
         >
-            <div 
+            <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
