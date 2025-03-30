@@ -6,7 +6,7 @@ import Input from '../../components/input';
 import Checkbox from '../../components/checkbox';
 import { postVisitorApi } from '../../lib/api';
 
-export default function Registration() {
+export default function RSVP() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [going, setGoing] = useState(false);
@@ -32,7 +32,7 @@ export default function Registration() {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
-                <h2 className="text-2xl font-bold text-center">Registration Form</h2>
+                <h2 className="text-2xl font-bold text-center">RSVP Form</h2>
                 <Input
                     label="First Name"
                     value={firstName}

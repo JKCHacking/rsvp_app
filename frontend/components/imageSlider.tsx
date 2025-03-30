@@ -6,59 +6,92 @@ interface ImageSliderProps {
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const touchStartX = useRef<number | null>(null);
-    const touchEndX = useRef<number | null>(null);
-    const isDragging = useRef(false);
+    // const touchStartX = useRef<number | null>(null);
+    // const touchEndX = useRef<number | null>(null);
+    const [positionX, setPositionX] = useState(50);
+    // const [startX, setStartX] = useState(0);
+    // const [endX, setEndX] = useState(0);
 
-    const nextSlide = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    };
+    const startX = useRef(0);
+    const endX = useRef(0);
+    const [displacement, setDisplacement] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
 
-    const prevSlide = () => {
-        setCurrentIndex((prevIndex) => prevIndex === 0 ? images.length - 1 : prevIndex - 1);
-    };
+    // const nextSlide = () => {
+    //     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    // };
 
-    const handleTouchStart = (e: React.TouchEvent) => {
-        touchStartX.current = e.touches[0].clientX;
+    // const prevSlide = () => {
+    //     setCurrentIndex((prevIndex) => prevIndex === 0 ? images.length - 1 : prevIndex - 1);
+    // };
+
+    const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
+        console.log("Touch Start");
+        startX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+        setIsDragging(true);
     };
 
     const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
-        if (!isDragging.current) return;
-        touchEndX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+        console.log("Is Dragging");
+        if (!isDragging) return;
+        // setPositionX("touches" in e ? e.touches[0].clientX : e.clientX);
+        endX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+        if (startX.current && endX.current){
+            const difference = endX.current - startX.current;
+            console.log(difference);
+            setDisplacement(difference);
+        }
     };
 
-    const handleTouchEnd = (e: React.TouchEvent) => {
-        if (!touchStartX.current || !touchEndX.current) return;
+    const handleTouchEnd = (e: React.TouchEvent | React.MouseEvent) => {
+        console.log("Touch End");
+        setIsDragging(false);
 
-        touchEndX.current = e.changedTouches[0].clientX;
+        // endX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+        // if (startX.current && endX.current){
+        //     const difference = endX.current - startX.current;
+        //     console.log(difference);
+        //     setDisplacement(difference);
+        // }
+        // setEndX("touches" in e ? e.touches[0].clientX : e.clientX);
+        // const difference = endX - startX;
+        // console.log(difference);
+        // setDisplacement(difference);
+        // setDisplacement(0);
+        // startX.current = 0;
+        // endX.current = 0;
+        // setStartX(0);
+        // setEndX(0);
+        // if (!touchStartX.current || !touchEndX.current) return;
 
-        if (touchStartX.current && touchEndX.current) {
-            const difference = touchStartX.current - touchEndX.current;
+        // touchEndX.current = "touches" in e ? e.changedTouches[0].clientX : e.clientX;
 
-            if (difference > 50) {
-                nextSlide();
-            } else if (difference < -50){
-                prevSlide();
-            }
-        }
+        // if (touchStartX.current && touchEndX.current) {
+        //     const difference = touchStartX.current - touchEndX.current;
 
-        touchStartX.current = null;
-        touchEndX.current = null;
+        //     if (difference > 50) {
+        //         nextSlide();
+        //     } else if (difference < -50){
+        //         prevSlide();
+        //     }
+        // }
     };
 
     return (
         <div
             className="relative w-full max-w-2xl mx-auto overflow-hidden"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
+            // onTouchStart={handleTouchStart}
+            // onTouchEnd={handleTouchEnd}
             onMouseDown={handleTouchStart}
             onMouseMove={handleTouchMove}
             onMouseUp={handleTouchEnd}
-            onMouseLeave={handleTouchEnd}
+            // onMouseLeave={handleTouchEnd}
         >
             <div
                 className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                // style={{ transform: `translateX(calc(${(displacement && displacement / Math.abs(displacement)) * 20}px))` }}
+                style={{ transform: `translateX(${displacement}px)` }}
+                // style={{ left: positionX, position: "absolute" }}
             >
                 {images.map((img, index) => (
                     <img key={index} src={img} alt={`Slide ${index}`} className="w-full h-64 object-cover rounded-lg" draggable={false}/>
