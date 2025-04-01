@@ -3,23 +3,30 @@
 import React, { useState } from 'react';
 import Button from '../../components/button';
 import Input from '../../components/input';
-import Checkbox from '../../components/checkbox';
 import { postVisitorApi } from '../../lib/api';
+import YesNoRadio from '../../components/yesnoradio';
 
 export default function RSVP() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [hasCompanion, setHasCompanion] = useState(false);
+    const [companionFirstName, setCompanionFirstName] = useState("");
+    const [companionLastName, setCompanionLastName] = useState("");
     const [going, setGoing] = useState(false);
-    const [commute, setCommute] = useState(false);
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [car, setCar] = useState(false);
+    const [contactNumber, setContactNumber] = useState("");
 
     const registerVisitor = async () => {
         const payload = {
             "firstName": firstName,
             "lastName": lastName,
-            "contactNumber": phoneNumber,
+            "contactNumber": contactNumber,
             "going": going,
-            "commute": commute,
+            "car": car,
+            "companion": {
+                "firstName": companionFirstName,
+                "lastName": companionLastName
+            }
         }
         const res = await postVisitorApi(payload);
         if (res.status == 200) {
@@ -48,26 +55,55 @@ export default function RSVP() {
                     required
                 />
                 <Input
-                    label="Phone Number"
-                    value={phoneNumber}
-                    onChange={setPhoneNumber}
-                    placeHolder="Enter phone number"
+                    label="Contact Number"
+                    value={contactNumber}
+                    onChange={setContactNumber}
+                    placeHolder="Enter contact number"
                     required
                 />
-                <Checkbox
-                    label="Going?"
-                    checked={going}
+                <YesNoRadio
+                    label="Are you going?"
+                    name="going"
                     onChange={setGoing}
                 />
-                <Checkbox
-                    label="Commute?"
-                    checked={commute}
-                    onChange={setCommute}
+                <YesNoRadio
+                    label="Do you have a car?"
+                    name="car"
+                    onChange={setCar}
                 />
-                <Button
-                    text="Register"
-                    onClick={registerVisitor}
+                <YesNoRadio
+                    label="Do you have a companion?"
+                    name="companion"
+                    onChange={setHasCompanion}
                 />
+                {hasCompanion && 
+                    <div className="space-y-4">
+                        <Input
+                            label="First Name"
+                            value={companionFirstName}
+                            onChange={setCompanionFirstName}
+                            placeHolder="Enter first name"
+                            required
+                        />
+                        <Input
+                            label="Last Name"
+                            value={companionLastName}
+                            onChange={setCompanionLastName}
+                            placeHolder="Enter last name"
+                            required
+                        />
+                    </div>
+                }
+                <div className="space-x-4">
+                    <Button
+                        text="Cancel"
+                        onClick={() => {}}
+                    />
+                    <Button
+                        text="Submit"
+                        onClick={registerVisitor}
+                    />
+                </div>
             </div>
         </div>
     );
