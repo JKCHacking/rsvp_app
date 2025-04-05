@@ -12,7 +12,7 @@ export const postVisitorApi = async (data: object): Promise<AxiosResponse<any, a
             });
         return response;
     } catch (error) {
-        if (isAxiosError(error)) return error.response?.data?.error || "An error occured";
+        if (isAxiosError(error)) return error.response?.data?.message || "An error occured";
         return null;
     }
 };

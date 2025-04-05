@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import Button from '../../components/button';
@@ -6,6 +6,7 @@ import Input from '../../components/input';
 import { postVisitorApi } from '../../lib/api';
 import YesNoRadio from '../../components/yesnoradio';
 import { Toast } from '../../components/toast';
+import { useRouter } from "next/navigation";
 
 export default function RSVP() {
     const [firstName, setFirstName] = useState("");
@@ -20,6 +21,12 @@ export default function RSVP() {
     const [toastMessage, setToastMessage] = useState("");
     const [toastType, setToastType] = useState<"success" | "error" | "info">("info");
 
+    const router = useRouter();
+
+    const handleGoBack = () => {
+        router.push("/");
+    };
+    
     const registerVisitor = async () => {
         const payload = {
             "firstName": firstName,
@@ -107,10 +114,11 @@ export default function RSVP() {
                         />
                     </div>
                 }
-                <div className="space-x-4">
+                <div className="flex justify-between">
                     <Button
-                        text="Cancel"
-                        onClick={() => {}}
+                        text="Go Back Home"
+                        onClick={handleGoBack}
+                        variant="secondary"
                     />
                     <Button
                         text="Submit"

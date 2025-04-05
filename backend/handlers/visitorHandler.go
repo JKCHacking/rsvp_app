@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -36,7 +37,7 @@ func PostVisitor(c *gin.Context) {
 	if err := database.DB.Where("LOWER(first_name) = ? AND LOWER(last_name) = ?", strings.ToLower(payload.FirstName), strings.ToLower(payload.LastName)).First(&existing).Error; err == nil {
 		// Found existing visitor
 		c.JSON(http.StatusConflict, gin.H{
-			"message": "Main visitor already exists",
+			"message": fmt.Sprintf("%s %s is already registered.", payload.FirstName, payload.LastName),
 		})
 		return
 	}
@@ -44,7 +45,7 @@ func PostVisitor(c *gin.Context) {
 	if err := database.DB.Where("LOWER(first_name) = ? AND LOWER(last_name) = ?", strings.ToLower(payload.Companion.FirstName), strings.ToLower(payload.Companion.LastName)).First(&existing).Error; err == nil {
 		// Found existing visitor
 		c.JSON(http.StatusConflict, gin.H{
-			"message": "Companion already exists",
+			"message": fmt.Sprintf("%s %s is already registered.", payload.Companion.FirstName, payload.Companion.LastName),
 		})
 		return
 	}
