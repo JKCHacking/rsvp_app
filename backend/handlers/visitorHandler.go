@@ -1,29 +1,86 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
+	"strings"
 
 	"github.com/JKCHacking/rsvp_app/backend/database"
 	"github.com/JKCHacking/rsvp_app/backend/models"
 	"github.com/gin-gonic/gin"
 )
 
-func PostVisitor(c *gin.Context) {
-	var visitor models.Visitor
+type CompanionPayload struct {
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+}
 
-	if err := c.ShouldBindJSON(&visitor); err != nil {
+type VisitorPayload struct {
+	FirstName     string            `json:"firstName"`
+	LastName      string            `json:"lastName"`
+	ContactNumber string            `json:"contactNumber"`
+	Going         bool              `json:"going"`
+	Car           bool              `json:"car"`
+	Companion     *CompanionPayload `json:"companion"` // optional
+}
+
+func PostVisitor(c *gin.Context) {
+	var payload VisitorPayload
+
+	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := database.DB.Create(&visitor).Error; err != nil {
-		log.Printf("Error registering visitor: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to register visitor"})
+	// Check if visitor already exists
+	var existing models.Visitor
+	if err := database.DB.Where("LOWER(first_name) = ? AND LOWER(last_name) = ?", strings.ToLower(payload.FirstName), strings.ToLower(payload.LastName)).First(&existing).Error; err == nil {
+		// Found existing visitor
+		c.JSON(http.StatusConflict, gin.H{
+			"message": "Main visitor already exists",
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, visitor)
+	if err := database.DB.Where("LOWER(first_name) = ? AND LOWER(last_name) = ?", strings.ToLower(payload.Companion.FirstName), strings.ToLower(payload.Companion.LastName)).First(&existing).Error; err == nil {
+		// Found existing visitor
+		c.JSON(http.StatusConflict, gin.H{
+			"message": "Companion already exists",
+		})
+		return
+	}
+
+	mainVisitor := models.Visitor{
+		FirstName:     payload.FirstName,
+		LastName:      payload.LastName,
+		ContactNumber: payload.ContactNumber,
+		Going:         payload.Going,
+		Car:           payload.Car,
+		IsCompanion:   false,
+	}
+
+	if err := database.DB.Create(&mainVisitor).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save main visitor"})
+		return
+	}
+
+	if payload.Companion != nil && payload.Companion.FirstName != "" {
+		companion := models.Visitor{
+			FirstName:     payload.Companion.FirstName,
+			LastName:      payload.Companion.LastName,
+			ContactNumber: payload.ContactNumber,
+			Going:         payload.Going,
+			Car:           payload.Car,
+			IsCompanion:   true,
+			MainVisitorID: &mainVisitor.ID,
+		}
+
+		if err := database.DB.Create(&companion).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save companion"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "RSVP saved successfully"})
 }
 
 func GetVisitors(c *gin.Context) {

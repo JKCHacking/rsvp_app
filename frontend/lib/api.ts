@@ -12,7 +12,7 @@ export const postVisitorApi = async (data: object): Promise<AxiosResponse<any, a
             });
         return response;
     } catch (error) {
-        if (isAxiosError(error)) return error.response;
+        if (isAxiosError(error)) return error.response?.data?.error || "An error occured";
         return null;
     }
 };
@@ -22,7 +22,7 @@ export const getVisitorApi = async (): Promise<AxiosResponse<any, any>> => {
         const response = await api.get("/visitor", { withCredentials: true });
         return response;
     } catch (error) {
-        if (isAxiosError(error)) return error.response;
+        if (isAxiosError(error)) return error.response?.data?.error || "An error occured";
         return null;
     }
 };
@@ -39,7 +39,7 @@ export const postLoginApi = async (data: object): Promise<AxiosResponse<any, any
         );
         return response
     } catch (error) {
-        if (isAxiosError(error)) return error.response;
+        if (isAxiosError(error)) return error.response?.data?.error || "An error occured";
         return null;
     }
 };

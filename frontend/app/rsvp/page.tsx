@@ -5,6 +5,7 @@ import Button from '../../components/button';
 import Input from '../../components/input';
 import { postVisitorApi } from '../../lib/api';
 import YesNoRadio from '../../components/yesnoradio';
+import { Toast } from '../../components/toast';
 
 export default function RSVP() {
     const [firstName, setFirstName] = useState("");
@@ -15,6 +16,9 @@ export default function RSVP() {
     const [going, setGoing] = useState(false);
     const [car, setCar] = useState(false);
     const [contactNumber, setContactNumber] = useState("");
+
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastType, setToastType] = useState<"success" | "error" | "info">("info");
 
     const registerVisitor = async () => {
         const payload = {
@@ -28,11 +32,20 @@ export default function RSVP() {
                 "lastName": companionLastName
             }
         }
+
         const res = await postVisitorApi(payload);
         if (res.status == 200) {
             console.log("Visitor registration successful!");
+            console.log(res.data.message);
+
+            setToastMessage(res.data.message);
+            setToastType("success");
         } else {
             console.log("Visitor registration failed!");
+            console.log(res);
+
+            setToastMessage(res);
+            setToastType("error");
         }
     }
 
@@ -105,6 +118,13 @@ export default function RSVP() {
                     />
                 </div>
             </div>
+            {toastMessage && (
+                <Toast
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setToastMessage("")}
+                />
+            )}
         </div>
     );
 }
