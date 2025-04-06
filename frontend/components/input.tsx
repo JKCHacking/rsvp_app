@@ -9,15 +9,15 @@ interface InputProps {
     required?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ label, value, placeHolder, error, onChange, required = true }) => {
+const Input: React.FC<InputProps> = ({ label, value, placeHolder, error, onChange, required = false }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value);
     }
 
     return (
         <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-                {label}
+            <label className="block text-sm font-medium text-gray-700 mb-1 gap-2">
+                {label}{required && (<label className="italic text-red-500">*</label>)}
             </label>
             <input
                 className={`w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500

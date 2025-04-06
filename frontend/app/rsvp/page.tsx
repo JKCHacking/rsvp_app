@@ -18,6 +18,8 @@ export default function RSVP() {
     const [car, setCar] = useState(false);
     const [contactNumber, setContactNumber] = useState("");
 
+    const [missingFields, setMissingFields] = useState(false);
+
     const [toastMessage, setToastMessage] = useState("");
     const [toastType, setToastType] = useState<"success" | "error" | "info">("info");
 
@@ -40,6 +42,11 @@ export default function RSVP() {
             }
         }
 
+        if (firstName == "" || lastName == "" || contactNumber == ""){
+            setMissingFields(true);
+            return
+        }
+
         const res = await postVisitorApi(payload);
         if (res.status == 200) {
             console.log("Visitor registration successful!");
@@ -47,6 +54,7 @@ export default function RSVP() {
 
             setToastMessage(res.data.message);
             setToastType("success");
+            router.push("/rsvp");
         } else {
             console.log("Visitor registration failed!");
             console.log(res);
@@ -57,8 +65,11 @@ export default function RSVP() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
+        <div className="flex flex-col space-y-4 items-center justify-center min-h-screen shadow-lg" style={{ backgroundImage: "url('images/rsvp-image.jpg')" }}>
+            {missingFields && <div className="mt-2 rounded-xl bg-red-100 text-red-700 px-4 py-3 text-sm shadow-sm font-bold">
+                Please fill in all required fields (*).
+            </div>}
+            <div className="bg-white/30 backdrop-blur-sm p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
                 <h2 className="text-2xl font-bold text-center">RSVP Form</h2>
                 <Input
                     label="First Name"
@@ -85,6 +96,7 @@ export default function RSVP() {
                     label="Are you going?"
                     name="going"
                     onChange={setGoing}
+                    required
                 />
                 <YesNoRadio
                     label="Do you have a car?"

@@ -5,13 +5,14 @@ interface YesNoRadioProps {
   name: string;
   value?: string;
   onChange?: (value: boolean) => void;
+  required?: boolean;
 }
 
-const YesNoRadio: React.FC<YesNoRadioProps> = ({ label, name, value, onChange }) => {
+const YesNoRadio: React.FC<YesNoRadioProps> = ({ label, name, value, onChange, required = false }) => {
   const yes = "Yes";
   const no = "No";
   
-  const [selected, setSelected] = useState<string>(value || "");
+  const [selected, setSelected] = useState<string>(no || "");
 
   const handleChange = (newValue: string) => {
     setSelected(newValue);
@@ -22,7 +23,9 @@ const YesNoRadio: React.FC<YesNoRadioProps> = ({ label, name, value, onChange })
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="text-sm font-medium text-gray-700 mb-1">
+        {label}{required && (<label className="italic text-red-500">*</label>)}
+      </label>
       <div className="flex items-center gap-4">
         <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-700 mb-1">
           <input
