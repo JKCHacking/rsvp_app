@@ -66,9 +66,11 @@ export default function RSVP() {
 
     return (
         <div className="flex flex-col space-y-4 items-center justify-center min-h-screen shadow-lg" style={{ backgroundImage: "url('images/rsvp-image.jpg')" }}>
-            {missingFields && <div className="mt-2 rounded-xl bg-red-100 text-red-700 px-4 py-3 text-sm shadow-sm font-bold">
-                Please fill in all required fields (*).
-            </div>}
+            {missingFields && 
+                <div className="mt-2 rounded-xl bg-red-100 text-red-700 px-4 py-3 text-sm shadow-sm font-bold">
+                    Please fill in all required fields (*).
+                </div>
+            }
             <div className="bg-white/30 backdrop-blur-sm p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
                 <h2 className="text-2xl font-bold text-center">RSVP Form</h2>
                 <Input
@@ -141,8 +143,8 @@ export default function RSVP() {
             {toastMessage && (
                 <Toast
                 message={toastMessage}
-                type={toastType}
                 onClose={() => setToastMessage("")}
+                type={toastType}
                 />
             )}
         </div>
