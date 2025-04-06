@@ -2,22 +2,22 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ~/projects/rsvp_app/frontend
+      context: ../../../frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ~/projects/rsvp_app/frontend:/app
+      - ../../../frontend:/app
       - /app/node_modules
     env_file:
-      - ~/projects/rsvp_app/frontend/.env.local
+      - ../../../frontend/.env.local
     networks:
       - rsvp_network
 
   backend:
     container_name: backend
     build:
-      context: ~/projects/rsvp_app/backend/
+      context: ../../../backend/
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
