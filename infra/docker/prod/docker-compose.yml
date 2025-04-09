@@ -1,0 +1,86 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ../../../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../../frontend:/app
+      - /app/node_modules
+    env_file:
+      - ../../../frontend/.env.production
+    networks:
+      - rsvp_network
+
+  backend:
+    container_name: backend
+    build:
+      context: ../../../backend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "5000:5000"
+    networks:
+      - rsvp_network
+    environment:
+      KEYCLOAK_URL: "http://keycloak-server:8080"
+      KEYCLOAK_REALM: "myrealm"
+      KEYCLOAK_CLIENT_ID: "my-client"
+      KEYCLOAK_CLIENT_SECRET: "BWECPxOjnRapY8kKNWCVLE9qgDKORB8r"
+
+  # keycloak-local:
+  #   image: quay.io/keycloak/keycloak:latest # Use the latest version of Keycloak
+  #   container_name: keycloak-server
+  #   command:
+  #     - start-dev
+  #     - --import-realm
+  #   environment:
+  #     # Set admin credentials
+  #     KC_DB: postgres # Use PostgreSQL as the database
+  #     KC_DB_URL: jdbc:postgresql://db/keycloak
+  #     KC_DB_USERNAME: keycloak
+  #     KC_DB_PASSWORD: password
+  #     KEYCLOAK_ADMIN: admin # Keycloak admin username
+  #     KEYCLOAK_ADMIN_PASSWORD: admin123 # Keycloak admin password
+  #   volumes:
+  #     - ./realm-config.json:/opt/keycloak/data/import/realm-config.json
+  #   ports:
+  #     - "8080:8080" # Expose Keycloak on port 8080
+  #   depends_on:
+  #     - db # Ensure the database is started before Keycloak
+  #   networks:
+  #     - rsvp_network
+
+  # db:
+  #   image: postgres:15 # PostgreSQL version 15
+  #   container_name: keycloak-db
+  #   environment:
+  #     POSTGRES_DB: keycloak # Database name
+  #     POSTGRES_USER: keycloak # Database username
+  #     POSTGRES_PASSWORD: password # Database password
+  #   volumes:
+  #     - keycloak-data:/var/lib/postgresql/data # Persist database data
+  #   networks:
+  #     - rsvp_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ../../nginx/nginx.conf:/etc/nginx/conf.d/app.conf:ro
+    depends_on:
+      - frontend
+    networks:
+      - rsvp_network
+    restart: always
+
+volumes:
+  keycloak-data:
+
+networks:
+  rsvp_network:
