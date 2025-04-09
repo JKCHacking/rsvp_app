@@ -15,3 +15,202 @@ body.woocommerce-checkout .e-checkout__order_review-2 #payment.woocommerce-check
 /*return to shop button*/
 .return-to-shop a.button { color: #000;background-color: #FFF; border:1px solid #000; font-size:12px; letter-spacing:1px; text-transform:uppercase; font-weight: normal;border-radius: 0px; padding: 15px 40px; }
 .return-to-shop a.button:hover { color: #fff;background-color: #000000; }/* End custom CSS */
+
+
+
+
+
+/*additional CSS from chi*/
+.elementor-element-38c90bd {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .elementor-button {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 0;
+  }
+}
+
+
+/* Make section padding responsive */
+@media screen and (max-width: 768px) {
+  .elementor-section {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+}
+
+/* Stack 3-column layouts into 1-column on mobile */
+@media screen and (max-width: 768px) {
+  .elementor-column.elementor-col-33 {
+    width: 100% !important;
+  }
+}
+
+
+
+/*Gallery Overlay effect*/
+
+/* Remove overlay from gallery images */
+.elementor-image-carousel .swiper-slide::before,
+.elementor-image-carousel .swiper-slide::after,
+.elementor-image-carousel .elementor-image-carousel-overlay {
+  content: none !important;
+  background: none !important;
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Optional: Prevent dimming or dark effects on hover */
+.elementor-image-carousel .swiper-slide img {
+  filter: none !important;
+  transition: none !important;
+}
+
+/* Make sure this applies on mobile too */
+@media screen and (max-width: 768px) {
+  .elementor-image-carousel .swiper-slide::before,
+  .elementor-image-carousel .swiper-slide::after,
+  .elementor-image-carousel .elementor-image-carousel-overlay {
+    display: none !important;
+    background: none !important;
+    opacity: 0 !important;
+  }
+}
+
+
+/* Remove extra padding/margin from header section */
+.elementor-section .elementor-top-section .elementor-element .elementor-element-440d81d .elementor-section-content-middle .elementor-section-boxed .elementor-section-height-default .elementor-section-height-default{
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+.elementor-section.elementor-top-section:first-of-type {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.elementor-section .elementor-top-section .elementor-element .elementor-element-ba50d7b .elementor-section-full_width .elementor-section-height-default .elementor-section-height-default{
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.elementor-466 .elementor-element.elementor-element-ba50d7b {
+	  padding-top: 0px !important;
+  margin-top: 60px !important;
+}
+
+
+
+
+@media (max-width: 767px) {
+    .elementor-466 .elementor-element.elementor-element-fb22b4e > .elementor-widget-container {
+        margin: 0px 0px -211px 0px !important;
+
+    }
+
+
+
+@media (max-width: 767px) {
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0 10px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* Make gallery section visible on mobile */
+  .elementor-element-e653966 {
+    display: block !important;
+  }
+
+  /* Stack gallery items vertically */
+  .elementor-gallery__container {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .elementor-gallery-item {
+    width: 100% !important;
+    aspect-ratio: 1 / 1;
+  }
+
+  .elementor-gallery-item__image {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Remove overlay and lightbox on mobile */
+  .elementor-gallery-item__overlay {
+    display: none !important;
+  }
+
+  a.elementor-gallery-item {
+    pointer-events: none !important;
+  }
+
+  /* Ensure images scale well */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+  }
+
+  /* Fix headings, paragraphs */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 16px !important;
+    line-height: 1.3;
+  }
+
+  p, .elementor-widget-container p {
+    font-size: 13px !important;
+    line-height: 1.5;
+  }
+
+  .elementor-button {
+    font-size: 13px !important;
+    padding: 10px 20px;
+    display: inline-block;
+    margin: 10px auto;
+  }
+
+  .elementor-widget-countdown .elementor-countdown-wrapper {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .elementor-widget-countdown .elementor-countdown-item {
+    flex-basis: 45%;
+    padding: 10px;
+  }
+
+  .elementor-countdown-digits {
+    font-size: 24px !important;
+  }
+
+  .elementor-countdown-label {
+    font-size: 12px !important;
+  }
+
+  .elementor-widget-image img {
+    max-width: 90% !important;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Hide footer section (optional) */
+  .elementor-element.elementor-element-11b8352,
+  .elementor-19 .elementor-element.elementor-element-16ecc518 {
+    display: none !important;
+  }
+}
