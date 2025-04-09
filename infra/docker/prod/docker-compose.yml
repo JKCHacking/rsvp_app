@@ -72,7 +72,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ../../nginx/nginx.conf:/etc/nginx/conf.d/app.conf:ro
+      - ../../nginx/prod/nginx.conf:/etc/nginx/conf.d/app.conf:ro
     depends_on:
       - frontend
     networks:
