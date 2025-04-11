@@ -74,28 +74,24 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-gray-900">
-        <div className="bg-gray-800 px-6 py-4 shadow-md">
-            <h1 className="text-xl font-semibold text-white">Dashboard</h1>
-        </div>
-
-        <div className="flex justify-center gap-4 p-4 flex-wrap">
-            <div className="w-40 h-40 bg-gray-800 flex flex-col items-center justify-center rounded-2xl shadow-lg m-2 border border-gray-700">
-            <span className="text-sm text-gray-400 mb-1">Total Visitors</span>
-            <span className={`text-4xl font-bold ${visitors?.length > 100 ? "text-red-400" : "text-green-400"}`}>
-                {visitors?.length}
-            </span>
+            <div className="bg-gray-800 px-6 py-4 shadow-md">
+                <h1 className="text-xl font-semibold text-white">Dashboard</h1>
             </div>
-
-            <div className="m-2 shadow-lg rounded-lg overflow-hidden border border-gray-700 bg-gray-800 w-full max-w-5xl">
-            <Table
-                className="m-2"
-                columns={columns}
-                data={visitors}
-                hoverEffect
-                stripedRows
-            />
+            <div className="flex justify-center gap-4 p-4 flex-wrap">
+                <div className="w-40 h-40 bg-gray-800 flex flex-col items-center justify-center rounded-2xl shadow-lg m-2 border border-gray-700">
+                    <span className="text-sm text-gray-400 mb-1">Total Visitors</span>
+                    <span className={`text-4xl font-bold ${visitors?.length > 100 ? "text-red-400" : "text-green-400"}`}>
+                        {visitors?.length}
+                    </span>
+                </div>
+                <Table
+                    className="m-2 shadow-lg rounded-lg overflow-hidden border border-gray-700 bg-gray-800 w-full max-w-5xl"
+                    columns={columns}
+                    data={visitors}
+                    hoverEffect
+                    stripedRows
+                />
             </div>
-        </div>
         </div>
 
     )
