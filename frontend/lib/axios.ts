@@ -19,6 +19,7 @@ api.interceptors.response.use(
     (error: any): Promise<never> => {
         if (error.response && error.response.status === 401) {
             // Handle unauthorized access, e.g., redirect to login
+            console.log(error.response.data.error);
             console.log("Something went wrong");
         }
         return Promise.reject(error);

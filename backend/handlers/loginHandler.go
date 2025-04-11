@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -11,38 +10,50 @@ import (
 )
 
 func PostLogin(c *gin.Context) {
-	keycloakUrl := os.Getenv("KEYCLOAK_URL")
-	realm := os.Getenv("KEYCLOAK_REALM")
-	clientID := os.Getenv("KEYCLOAK_CLIENT_ID")
-	clientSecret := os.Getenv("KEYCLOAK_CLIENT_SECRET")
+	// keycloakUrl := os.Getenv("KEYCLOAK_URL")
+	// realm := os.Getenv("KEYCLOAK_REALM")
+	// clientID := os.Getenv("KEYCLOAK_CLIENT_ID")
+	// clientSecret := os.Getenv("KEYCLOAK_CLIENT_SECRET")
+
+	// var creds struct {
+	// 	Username string
+	// 	Password string
+	// }
+	// c.BindJSON(&creds)
+	// tokenURL := fmt.Sprintf("%s/realms/%s/protocol/openid-connect/token", keycloakUrl, realm)
+	// resp, err := http.PostForm(tokenURL, url.Values{
+	// 	"client_id":     {clientID},
+	// 	"client_secret": {clientSecret},
+	// 	"grant_type":    {"password"},
+	// 	"username":      {creds.Username},
+	// 	"password":      {creds.Password},
+	// })
+
+	// if err != nil || resp.StatusCode != 200 {
+	// 	c.JSON(401, gin.H{"error": fmt.Sprintf("Invalid credetials. error: %v", err)})
+	// 	return
+	// }
+
+	// var token struct {
+	// 	AccessToken  string `json:"access_token"`
+	// 	RefreshToken string `json:"refresh_token"`
+	// }
+
+	// json.NewDecoder(resp.Body).Decode(&token)
+	// c.SetCookie("access_token", token.AccessToken, 3600, "/", "", false, true)
+	// c.SetCookie("refresh_token", token.RefreshToken, 3600, "/", "", false, true)
+	// c.JSON(200, gin.H{"message": "Login successful", "redirect": "/dashboard"})
 
 	var creds struct {
 		Username string
 		Password string
 	}
 	c.BindJSON(&creds)
-	tokenURL := fmt.Sprintf("%s/realms/%s/protocol/openid-connect/token", keycloakUrl, realm)
-	resp, err := http.PostForm(tokenURL, url.Values{
-		"client_id":     {clientID},
-		"client_secret": {clientSecret},
-		"grant_type":    {"password"},
-		"username":      {creds.Username},
-		"password":      {creds.Password},
-	})
-
-	if err != nil || resp.StatusCode != 200 {
-		c.JSON(401, gin.H{"error": fmt.Sprintf("Invalid credetials. error: %v", err)})
+	if creds.Username != "joshnee@shaira.com" && creds.Password != "kenji" {
+		c.JSON(401, gin.H{"error": "Invalid credetials"})
 		return
 	}
-
-	var token struct {
-		AccessToken  string `json:"access_token"`
-		RefreshToken string `json:"refresh_token"`
-	}
-
-	json.NewDecoder(resp.Body).Decode(&token)
-	c.SetCookie("access_token", token.AccessToken, 3600, "/", "", false, true)
-	c.SetCookie("refresh_token", token.RefreshToken, 3600, "/", "", false, true)
+	c.SetCookie("access_token", "xxxxxx", 3600, "/", "", false, true)
 	c.JSON(200, gin.H{"message": "Login successful", "redirect": "/dashboard"})
 }
 

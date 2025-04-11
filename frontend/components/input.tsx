@@ -7,9 +7,10 @@ interface InputProps {
     error?: string;
     onChange?: (value: string) => void;
     required?: boolean;
+    type?: string;
 }
 
-const Input: React.FC<InputProps> = ({ label, value, placeHolder, error, onChange, required = false }) => {
+const Input: React.FC<InputProps> = ({ label, value, placeHolder, error, type, onChange, required = false }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value);
     }
@@ -26,6 +27,7 @@ const Input: React.FC<InputProps> = ({ label, value, placeHolder, error, onChang
                 value={value}
                 placeholder={placeHolder}
                 onChange={handleChange}
+                type={type}
             />
             {error && (
                 <p className="mt-1 text-sm text-red-600" role="alert">
