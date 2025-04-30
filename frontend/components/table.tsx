@@ -33,7 +33,7 @@ const Table = <T extends object>({
                         key={column.key as string}
                         scope="col"
                         className={`
-                        px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-300
+                        sticky top-0 bg-gray-700 px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-300
                         ${column.align === 'center' ? 'text-center' : ''}
                         ${column.align === 'right' ? 'text-right' : ''}
                         ${column.width ? `w-[${column.width}]` : ''}

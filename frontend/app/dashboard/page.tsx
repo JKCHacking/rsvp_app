@@ -12,6 +12,7 @@ interface Visitor {
     going: boolean;
     car: boolean;
     contactNumber: string;
+    isCompanion: boolean;
 }
 
 export default function Dashboard() {
@@ -68,6 +69,24 @@ export default function Dashboard() {
         },
     ];
 
+    const columnsWithCar: ColumnDefinition<Visitor> [] = [
+        {
+            "key": "firstName",
+            "header": "First Name",
+            "align": "center",
+        },
+        {
+            "key": "lastName",
+            "header": "Last Name",
+            "align": "center",
+        },
+        {
+            "key": "contactNumber",
+            "header": "Contact Number",
+            "align": "center",
+        }
+    ];
+
     useEffect(() => {
         getVisitors();
     }, []);
@@ -77,20 +96,39 @@ export default function Dashboard() {
             <div className="bg-gray-800 px-6 py-4 shadow-md">
                 <h1 className="text-xl font-semibold text-white">Dashboard</h1>
             </div>
-            <div className="flex justify-center gap-4 p-4 flex-wrap">
+            <div className="flex gap-4 p-4 flex-wrap">
                 <div className="w-40 h-40 bg-gray-800 flex flex-col items-center justify-center rounded-2xl shadow-lg m-2 border border-gray-700">
-                    <span className="text-sm text-gray-400 mb-1">Total Visitors</span>
+                    <span className="text-sm text-gray-400 mb-1">Total Guests</span>
                     <span className={`text-4xl font-bold ${visitors?.length > 100 ? "text-red-400" : "text-green-400"}`}>
                         {visitors?.length}
                     </span>
                 </div>
-                <Table
-                    className="m-2 shadow-lg rounded-lg overflow-hidden border border-gray-700 bg-gray-800 w-full max-w-5xl"
-                    columns={columns}
-                    data={visitors}
-                    hoverEffect
-                    stripedRows
-                />
+                <div className="w-40 h-40 bg-gray-800 flex flex-col items-center justify-center rounded-2xl shadow-lg m-2 border border-gray-700">
+                    <span className="text-sm text-gray-400 mb-1">Guests with car</span>
+                    <span className={`text-4xl font-bold text-green-400`}>
+                        {visitors?.filter(v => v.car && !v.isCompanion).length}
+                    </span>
+                </div>
+                <div className="flex flex-col">
+                    <h2 class="m-2 text-xl font-semibold mb-2 text-gray-300">Guest List</h2>
+                    <Table
+                        className="m-2 shadow-lg rounded-lg overflow-hidden border border-gray-700 bg-gray-800 w-full max-w-5xl max-h-64 overflow-y-auto"
+                        columns={columns}
+                        data={visitors}
+                        hoverEffect
+                        stripedRows
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <h2 class="m-2 text-xl font-semibold mb-2 text-gray-300">Guests with car</h2>
+                    <Table
+                        className="m-2 shadow-lg rounded-lg overflow-hidden border border-gray-700 bg-gray-800 w-full max-w-5xl max-h-64 overflow-y-auto"
+                        columns={columnsWithCar}
+                        data={visitors?.filter(v => v.car && !v.isCompanion)}
+                        hoverEffect
+                        stripedRows
+                    />
+                </div>
             </div>
         </div>
 
